@@ -67,6 +67,8 @@ win32gui.SetWindowPos(hidden_hwnd, None, 0, 0, 0, 0,
 		0x0020 |	# SWP_FRAMECHANGED
 		0x0040 |	# SWP_SHOWWINDOW
 		0x0001 |	# SWP_NOSIZE
-		0x0002		# SWP_NOMOVE
+		0x0002 |	# SWP_NOMOVE
+                0x0400		# SWP_NOSENDCHANGING
 	)
 )
+win32gui.ShowWindow(hidden_hwnd, 3)
