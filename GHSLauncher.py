@@ -2,6 +2,7 @@ import miniupnpc
 import os
 import win32gui
 import time
+import tkinter as tk
 
 
 VIRTUAL_ADAPTER_IPv4 = "10.10.10.10"
@@ -36,7 +37,8 @@ except Exception: pass
 
 
 def connect(ip: str):
-	os.system(".\\IPv4Tunnel.exe {PORT} {ip}") # TODO
+	if (ip != ""): # If not server:
+		os.system(".\\IPv4Tunnel.exe {PORT} {ip}") # TODO
         
 	os.system("explorer steam://rungameid/9826266959967158487")
 
@@ -78,9 +80,32 @@ def connect(ip: str):
 	)
 	win32gui.ShowWindow(hidden_hwnd, 3) # SW_SHOWMAXIMIZED
         
-	os.system(f"explorer steam://connect/{VIRTUAL_ADAPTER_IPv4}:{PORT}")
-
+	os.system(f"explorer steam://connect/{VIRTUAL_ADAPTER_IPv4}:{PORT}") # TODO
 
 def host_server():
+        os.system(".\\IPv4Tunnel.exe {PORT}") # TODO: Test if binding order matters for this & server
         os.system(f"start .\\ServerFiles\\srcds.exe -game hidden -tickrate 128 -ip {VIRTUAL_ADAPTER_IPv4} -port {PORT}")
         connect("")
+
+
+root = tk.Tk()
+root.title("GHSLauncher")
+root.resizable(False, False)
+root.geometry("250x75")
+root.eval("tk::PlaceWindow . center")
+
+remote_ip_entry = tk.Entry(root, width=39)
+remote_ip_entry.pack(side=tk.TOP)
+tk.Button(
+        root,
+        text="Connect",
+        command=lambda: connect(remote_ip_entry.get())
+).pack(side=tk.TOP)
+
+tk.Button(
+        root,
+        text="Host server",
+        command=host_server
+).pack(side=tk.BOTTOM)
+
+root.mainloop()
