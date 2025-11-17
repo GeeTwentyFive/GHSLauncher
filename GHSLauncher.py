@@ -8,6 +8,7 @@ import tkinter as tk
 
 VIRTUAL_ADAPTER_IPv4 = "10.10.10.10"
 PORT = 27015
+DEFAULT_MAP = "hdn_highrise"
 HIDDEN_SOURCE_WINDOW_NAME = "HIDDEN: SOURCE - Enhanced Edition"
 
 
@@ -89,7 +90,7 @@ def connect(ip: str):
 	os.system(f"explorer steam://connect/{VIRTUAL_ADAPTER_IPv4}:{PORT}") # TODO
 
 def host_server():
-        os.system(f"start .\\ServerFiles\\srcds.exe -game hidden -tickrate 128 -ip {VIRTUAL_ADAPTER_IPv4} -port {PORT}")
+        os.system(f"start .\\ServerFiles\\srcds.exe -game hidden -tickrate 128 -ip {VIRTUAL_ADAPTER_IPv4} -port {PORT} +map {DEFAULT_MAP}")
         connect("")
 
 
