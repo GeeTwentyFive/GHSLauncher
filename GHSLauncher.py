@@ -1,7 +1,8 @@
 import miniupnpc
+import socket
 import os
-import win32gui
 import time
+import win32gui
 import tkinter as tk
 
 
@@ -37,10 +38,15 @@ except Exception: pass
 
 
 def connect(ip: str):
-	if (ip != ""): # If not server:
-		os.system(".\\IPv4Tunnel.exe {PORT} {ip}") # TODO
-        
 	os.system("explorer steam://rungameid/9826266959967158487")
+
+	# Terminate existing IPv4Tunnel daemon if one is running, via TCP IPC
+	with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+		s.settimeout(0.1)
+		try: s.connect(("localhost", 55555))
+		except TimeoutError: pass
+
+	os.system(".\\IPv4Tunnel.exe {PORT} {ip}") # TODO
 
 	hidden_hwnd = 0
 	while not hidden_hwnd:
@@ -83,7 +89,6 @@ def connect(ip: str):
 	os.system(f"explorer steam://connect/{VIRTUAL_ADAPTER_IPv4}:{PORT}") # TODO
 
 def host_server():
-        os.system(".\\IPv4Tunnel.exe {PORT}") # TODO: Test if binding order matters for this & server
         os.system(f"start .\\ServerFiles\\srcds.exe -game hidden -tickrate 128 -ip {VIRTUAL_ADAPTER_IPv4} -port {PORT}")
         connect("")
 
