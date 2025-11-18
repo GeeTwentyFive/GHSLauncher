@@ -1,10 +1,17 @@
+import psutil
 import miniupnpc
 import os
 import win32gui
 import time
 
 
+TARGET_PROCESS_NAME = "hl2.exe"
 HIDDEN_SOURCE_WINDOW_NAME = "HIDDEN: SOURCE - Enhanced Edition"
+
+
+for p in psutil.process_iter(['name']):
+	if p.name() == TARGET_PROCESS_NAME:
+		p.kill()
 
 
 try:
