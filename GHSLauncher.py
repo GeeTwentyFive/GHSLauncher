@@ -1,6 +1,7 @@
 import psutil
 import miniupnpc
-import os
+import winreg
+import subprocess
 import win32gui
 import time
 
@@ -39,8 +40,17 @@ except Exception as e:
 	print("UPnP ERROR: " + str(e))
 
 
-os.system("explorer steam://rungameid/9826266959967158487")
+steam_path = winreg.QueryValueEx(
+	winreg.OpenKey(winreg.HKEY_CURRENT_USER, "Software\\Valve\\Steam"),
+	"SteamPath"
+)[0] + "\\steam.exe"
 
+hidden_source_path = winreg.QueryValueEx(
+	winreg.OpenKey(winreg.HKEY_CURRENT_USER, "Software\\Valve\\Steam"),
+	"SourceModInstallPath"
+)[0] + "\\hidden"
+
+subprocess.Popen([steam_path, "-applaunch", "215", "-game", hidden_source_path, "-console"])
 
 hidden_hwnd = 0
 while not hidden_hwnd:
