@@ -52,6 +52,7 @@ hidden_source_path = winreg.QueryValueEx(
 
 subprocess.Popen([steam_path, "-applaunch", "215", "-game", hidden_source_path, "-console"])
 
+
 hidden_hwnd = 0
 while not hidden_hwnd:
 	hidden_hwnd = win32gui.FindWindow(None, HIDDEN_SOURCE_WINDOW_NAME)
